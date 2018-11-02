@@ -1,0 +1,68 @@
+extends ../layout
+
+block title Home
+
+block content
+	.container
+		.row
+			.timeline-centered
+				article.timeline-entry
+					.timeline-entry-inner
+						time.timeline-time(datetime='2014-01-10T03:45')
+							span 03:45 AM
+							span Today
+						.timeline-icon.bg-success
+							i.entypo-feather
+						.timeline-label
+							h2
+								a(href='#') Art Ramadani
+								span posted a status update
+							p
+								| Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how cordial two promise. Greatly who affixed suppose but enquire compact prepare all put. Added forth chief trees but rooms think may.
+				article.timeline-entry.left-aligned
+					.timeline-entry-inner
+						time.timeline-time(datetime='2014-01-10T03:45')
+							span 03:45 AM
+							span Today
+						.timeline-icon.bg-secondary
+							i.entypo-suitcase
+						.timeline-label
+							h2
+								a(href='#') Job Meeting
+							p
+								| You have a meeting at 
+								strong Laborator Office
+								|  Today.
+				article.timeline-entry
+					.timeline-entry-inner
+						time.timeline-time(datetime='2014-01-09T13:22')
+							span 03:45 AM
+							span Today
+						.timeline-icon.bg-info
+							i.entypo-location
+						.timeline-label
+							h2
+								a(href='#') Arlind Nushi
+								span checked in at
+								a(href='#') Laborator
+							blockquote Great place, feeling like in home.
+							
+				article.timeline-entry.left-aligned
+					.timeline-entry-inner
+						time.timeline-time(datetime='2014-01-10T03:45')
+							span 03:45 AM
+							span Today
+						.timeline-icon.bg-warning
+							i.entypo-camera
+						.timeline-label
+							h2
+								a(href='#') Arber Nushi
+								span changed his
+								a(href='#') Profile Picture
+							blockquote
+								| Pianoforte principles our unaffected not for astonished travelling are particular.
+							img.img-responsive.img-rounded.full-width(src='http://themes.laborator.co/neon/assets/images/timeline-image-3.png')
+				article.timeline-entry.begin
+					.timeline-entry-inner
+						.timeline-icon(style='-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);')
+							i.entypo-flight
