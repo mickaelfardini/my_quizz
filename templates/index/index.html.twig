@@ -3,18 +3,44 @@
 {% block title %}Hello {{ controller_name }}!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'src/Controller/IndexController.php'|file_link(0) }}">src/Controller/IndexController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'templates/index/index.html.twig'|file_link(0) }}">templates/index/index.html.twig</a></code></li>
-    </ul>
+<div class="container">
+	<div class="row">
+		<div class="timeline-centered">
+	{% for item in category %}
+	{% if loop.index is divisible by(bg|length) %}
+		{% set bg_index = 0 %}
+	{% endif %}
+		{% if loop.index is divisible by(2) %}
+			<article class="timeline-entry">
+				<div class="timeline-entry-inner">
+					<time class="timeline-time" datetime="2014-01-10T03:45"><span></span><span>Today</span></time>
+					<div class="timeline-icon bg-{{bg[bg_index]}}"><i class="entypo-feather"></i></div>
+					<div class="timeline-label">
+						<h2><a href="#">{{item.name}}</a><span>posted a status update</span></h2>
+						<p>Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how cordial two promise. Greatly who affixed suppose but enquire compact prepare all put. Added forth chief trees but rooms think may.</p>
+					</div>
+				</div>
+			</article>
+		{% else %}
+			<article class="timeline-entry left-aligned">
+				<div class="timeline-entry-inner">
+					<time class="timeline-time" datetime="2014-01-10T03:45"><span></span><span>Today</span></time>
+					<div class="timeline-icon bg-{{bg[bg_index]}}"><i class="entypo-suitcase"></i></div>
+					<div class="timeline-label">
+						<h2><a href="#">{{item.name}}</a></h2>
+						<p>You have a meeting at <strong>Laborator Office</strong> Today.</p>
+					</div>
+				</div>
+			</article>
+		{% endif %}
+		{% set bg_index = bg_index + 1 %}
+	{% endfor %}
+			<article class="timeline-entry begin">
+				<div class="timeline-entry-inner">
+					<div class="timeline-icon" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);"><i class="entypo-flight"></i></div>
+				</div>
+			</article>
+		</div>
+	</div>
 </div>
 {% endblock %}
