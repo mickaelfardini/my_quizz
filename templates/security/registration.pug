@@ -1,0 +1,17 @@
+extends ../layout
+
+block title Registration
+
+block content
+	.container
+		.row.text-center
+			.col-sm-6.offset-3
+				h2 Inscription
+				form(action="/register", method="POST")
+					label Username
+					input.form-control(name="username", placeholder="JeanJack")
+					label Email
+					input.form-control(type="email", name="email", placeholder="Jean@jack.com")
+					label Password
+					input.form-control(type="password", name="password", placeholder="*******")
+					button(type='submit') Envoyer
