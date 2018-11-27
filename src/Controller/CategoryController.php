@@ -6,10 +6,10 @@ use App\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class IndexController extends AbstractController
+class CategoryController extends AbstractController
 {
 	/**
-	 * @Route("/index", name="index", methods={"GET"})
+	 * @Route("/categories", name="category.index", methods={"GET"})
 	 */
 	public function index()
 	{
@@ -19,7 +19,7 @@ class IndexController extends AbstractController
 
 		// dump($category);
 		// die;
-		return $this->render('index/index.html.twig', [
+		return $this->render('category/index.html.twig', [
 			'controller_name' => 'IndexController',
 			'category' => $category,
 			'bg' => ['success', 'danger', 'info', 'secondary', 'warning'],
