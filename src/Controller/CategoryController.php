@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Question;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -37,6 +38,13 @@ class CategoryController extends AbstractController
 		$category = $this->getDoctrine()
 		->getRepository(Category::class)
 		->find($id);
+
+		$questions = $this->getDoctrine()
+			->getRepository(Question::class)
+			->findByCategory($id);
+
+		// dump($questions[1]->answers);
+		// die;
 
 		return $this->render('category/show.html.twig', [
 			'controller_name' => 'IndexController',

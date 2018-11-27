@@ -6,7 +6,7 @@
 <div class="container">
 	<div class="row">
 		<div class="timeline-centered">
-	{% for item in category %}
+	{% for item in questions %}
 	{% if loop.index is divisible by(bg|length) %}
 		{% set bg_index = 0 %}
 	{% endif %}
@@ -32,7 +32,7 @@
 					<time class="timeline-time" datetime="2014-01-10T03:45"><span></span><span>Today</span></time>
 					<div class="timeline-icon bg-{{bg[bg_index]}}"><i class="entypo-suitcase"></i></div>
 					<div class="timeline-label">
-						<h2><a href="#">{{item.name}}</a></h2>
+						<h2><a href="{{path('category.show', {'id': item.id})}}">{{item.name}}</a></h2>
 						<p>
 							{{item.questions.0.question}}
 							{{item.questions.1.question}}
