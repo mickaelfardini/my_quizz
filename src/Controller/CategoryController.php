@@ -26,4 +26,23 @@ class CategoryController extends AbstractController
 			'bg_index' => 0,
 		]);
 	}
+
+	/**
+	 *
+	 * @Route("/category/{id}", name="category.show", methods={"GET"}, requirements={"id"="\d+"}) 
+	 * @author 
+	 */
+	public function show($id)
+	{
+		$category = $this->getDoctrine()
+		->getRepository(Category::class)
+		->find($id);
+
+		return $this->render('category/show.html.twig', [
+			'controller_name' => 'IndexController',
+			'category' => $category,
+			'bg' => ['success', 'danger', 'info', 'secondary', 'warning'],
+			'bg_index' => 0,
+		]);
+	}
 }

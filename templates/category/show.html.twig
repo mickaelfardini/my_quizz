@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %}{{category.name}}{% endblock %}
 
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="timeline-centered">
-	{% for item in category %}
+	{% for item in category.questions %}
 	{% if loop.index is divisible by(bg|length) %}
 		{% set bg_index = 0 %}
 	{% endif %}
@@ -16,12 +16,9 @@
 					<time class="timeline-time" datetime="2014-01-10T03:45"><span></span><span>Today</span></time>
 					<div class="timeline-icon bg-{{bg[bg_index]}}"><i class="entypo-feather"></i></div>
 					<div class="timeline-label">
-						<h2><a href="{{path('category.show', {'id': item.id})}}">{{item.name}}</a></h2>
+						<h2><a href="{{path('category.show', {'id': item.id})}}">{{item.question}}</a></h2>
 						<p>
-							{{item.questions.0.question}}
-							{{item.questions.1.question}}
-							{{item.questions.2.question}}
-							<p>Plus de questions dans cette categorie</p>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis non molestias, ex at doloribus, recusandae aspernatur. Qui, omnis beatae, id eius repellat numquam, ad voluptatem corporis quia cumque placeat dolor.
 						</p>
 					</div>
 				</div>
@@ -32,12 +29,9 @@
 					<time class="timeline-time" datetime="2014-01-10T03:45"><span></span><span>Today</span></time>
 					<div class="timeline-icon bg-{{bg[bg_index]}}"><i class="entypo-suitcase"></i></div>
 					<div class="timeline-label">
-						<h2><a href="#">{{item.name}}</a></h2>
+						<h2><a href="#">{{item.question}}</a></h2>
 						<p>
-							{{item.questions.0.question}}
-							{{item.questions.1.question}}
-							{{item.questions.2.question}}
-							<p>Plus de questions dans cette categorie</p>
+							
 						</p>
 					</div>
 				</div>
