@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Category;
-use App\Entity\Question;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,35 +17,7 @@ class CategoryController extends AbstractController
 		->getRepository(Category::class)
 		->findAll();
 
-		// dump($category);
-		// die;
 		return $this->render('category/index.html.twig', [
-			'controller_name' => 'IndexController',
-			'category' => $category,
-			'bg' => ['success', 'danger', 'info', 'secondary', 'warning'],
-			'bg_index' => 0,
-		]);
-	}
-
-	/**
-	 *
-	 * @Route("/category/{id}", name="category.show", methods={"GET"}, requirements={"id"="\d+"}) 
-	 * @author 
-	 */
-	public function show($id)
-	{
-		$category = $this->getDoctrine()
-		->getRepository(Category::class)
-		->find($id);
-
-		$questions = $this->getDoctrine()
-			->getRepository(Question::class)
-			->findByCategory($id);
-
-		// dump($questions[1]->answers);
-		// die;
-
-		return $this->render('category/show.html.twig', [
 			'controller_name' => 'IndexController',
 			'category' => $category,
 			'bg' => ['success', 'danger', 'info', 'secondary', 'warning'],

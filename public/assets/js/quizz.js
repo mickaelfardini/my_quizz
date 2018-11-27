@@ -10,5 +10,13 @@ window.onload = () => {
 	$('.form-check').change(() => {
 		i++;
 		$(questions[i]).prop('hidden', false);
+		if (i >= questions.length -3) {
+			$("#bottom-pin").prop('hidden', true);
+			$("#stopdiv").prop('hidden', false);
+		}
+	})
+
+	$("#stopQuizz").click(() => {
+		$("#postQuizz").submit();
 	})
 }
