@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Result{% endblock %}
+
+{% block body %}
+<div class="container">
+	{% for item in quizz %}
+		<strong>{{item.name}}</strong>
+	    <p>{{item.points}} / {{item.total}}</p>
+	{% endfor %}
+</div>
+{% endblock %}
+{% block script %}
+<!-- <script src="{{ asset('assets/js/quizz.js') }}"></script> -->
+{% endblock %}
