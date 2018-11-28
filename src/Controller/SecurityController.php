@@ -27,7 +27,7 @@ class SecurityController extends AbstractController
 	/**
 	* @Route("/register", name="registration")
 	*/
-	public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+	public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
 	{
 		$user = new User();
 		$form = $this->createForm(RegistrationType::class, $user);
@@ -35,7 +35,16 @@ class SecurityController extends AbstractController
 		
 		if ($form->isSubmitted() && $form->isValid()) {
 			$user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-
+			$user->setToken(md5(mt_rand()));
+			$user->setActive(0);
+	
+			$message = (new \Swift_Message('Inscription'))
+				->setFrom('noreply@localhost')
+				->setTo($user->getEmail())
+				->setBody($this->renderView('email/register.html.twig', [
+					"token" => $user->getToken(),
+				]));
+			$mailer->send($message);
 			$manager->persist($user);
 			$manager->flush();
 		}
@@ -56,5 +65,24 @@ class SecurityController extends AbstractController
 		$lastUsername = $authenticationUtils->getLastUsername();
 
 		return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+	}
+
+	/**
+	 * @Route("/confirm/{token}", name="register.confirm")
+	 */
+	public function confirmEmail($token, ObjectManager $manager)
+	{
+	    $user = $this->getDoctrine()
+					->getRepository(User::class)
+					->findOneByToken($token);
+		if ($user) {
+			$user->setActive(1);
+			$manager->persist($user);
+			$manager->flush();
+		}
+
+		return $this->render('email/register.html.twig', [
+			"token" => 12,
+		]);
 	}
 }
