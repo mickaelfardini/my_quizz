@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\History;
 use App\Entity\Question;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,11 +41,9 @@ class QuizzController extends AbstractController
 		$total = count($questions);
 		$post = $request->request->all();
 		foreach ($questions as $question) {
-			dump($question->getAnswer()->getId());
 			$answer = $question->getAnswer()->getId();
 			if (isset($post[$question->getId()])) {
 				if ($post[$question->getId()] == $answer) {
-					dump("a");
 					$correct++;
 					$result[] = 1;
 				} else {
@@ -52,13 +51,29 @@ class QuizzController extends AbstractController
 				}
 			}
 		}
-		dump($request->request->all());
-		// die;
+
+		$this->pushResult($correct, $request->request->get('quizz'));
 	    return $this->render('quizz/result.html.twig', [
 	    	'questions' => $questions,
 	    	'correct' => $correct,
 	    	'result' => $result,
 	    	'total' => $total,
 	    ]);
+	}
+
+	private function pushResult($points, $quizz)
+	{
+		$request = Request::createFromGlobals();
+		$em = $this->getDoctrine()->getManager();
+		$history = new History();
+
+		$history->setIp($request->getClientIp())
+			->setAgent($request->headers->get("User-Agent"))
+			->setPoints($points)
+			->setQuizz($quizz);
+			
+		$em->persist($history);
+		$em->flush();
+		return true;
 	}
 }
