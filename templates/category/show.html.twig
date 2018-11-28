@@ -19,7 +19,7 @@
 				<article class="timeline-entry" hidden>
 					<div class="timeline-entry-inner">
 						<time class="timeline-time" style="left: -500px"><span>
-							{% for answer in item.answers %}
+							{% for answer in item.answers|shuffle %}
 							<div class="form-check text-left">
 								<input class="form-check-input" type="radio" name="{{item.id}}" value="{{answer.id}}">
 								<label class="form-check-label" style="width: 300px">
@@ -33,7 +33,7 @@
 						<div class="timeline-label">
 							<h2><a href="{{path('quizz.show', {'id': item.id})}}">{{item.question}}</a></h2>
 							<p>
-								ok
+								
 							</p>
 						</div>
 					</div>
@@ -42,7 +42,7 @@
 				<article class="timeline-entry left-aligned" hidden>
 					<div class="timeline-entry-inner">
 						<time class="timeline-time" style="left: 800px;"><span >
-							{% for answer in item.answers %}
+							{% for answer in item.answers|shuffle %}
 							<div class="form-check">
 								<input class="form-check-input col-12" type="radio" name="{{item.id}}" value="{{answer.id}}">
 								<label class="form-check-label" style="width: 300px">
