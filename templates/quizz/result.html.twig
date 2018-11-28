@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Result{% endblock %}
+
+{% block body %}
+<div class="container">
+	{{correct}} / {{ total }}
+	{% for item in questions %}
+		{% if result[loop.index -1] == 1 %}
+			<div class="alert alert-success" role="alert">
+		{% else %}
+		    <div class="alert alert-danger" role="alert">
+		{% endif %}
+		<strong>{{item.question}}</strong>
+	    <p>{{item.answer.answer}}</p>
+			</div>
+	{% endfor %}
+</div>
+{% endblock %}
+{% block script %}
+<!-- <script src="{{ asset('assets/js/quizz.js') }}"></script> -->
+{% endblock %}

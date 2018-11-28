@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Question;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class QuizzController extends AbstractController
@@ -18,10 +19,6 @@ class QuizzController extends AbstractController
 		->getRepository(Category::class)
 		->find($id);
 
-		$questions = $this->getDoctrine()
-			->getRepository(Question::class)
-			->findByCategory($id);
-
 		return $this->render('category/show.html.twig', [
 			'controller_name' => 'IndexController',
 			'category' => $category,
@@ -31,10 +28,37 @@ class QuizzController extends AbstractController
 	}
 
 	/**
-	 * @Route("/quizz/answer", name="quizz.answer", methods={"POST"}) 
+	 * @Route("/quizz/result", name="quizz.result", methods={"POST"}) 
 	 */
-	public function answer()
+	public function result(Request $request)
 	{
-	    return $this->render('quizz/answer.html.twig');
+		$questions = $this->getDoctrine()
+			->getRepository(Question::class)
+			->findByCategory($request->request->get('quizz'));
+		$correct = 0;
+		$result = [];
+		$total = count($questions);
+		$post = $request->request->all();
+		foreach ($questions as $question) {
+			dump($question->getAnswer()->getId());
+			$answer = $question->getAnswer()->getId();
+			if (isset($post[$question->getId()])) {
+				if ($post[$question->getId()] == $answer) {
+					dump("a");
+					$correct++;
+					$result[] = 1;
+				} else {
+					$result[] = 0;
+				}
+			}
+		}
+		dump($request->request->all());
+		// die;
+	    return $this->render('quizz/result.html.twig', [
+	    	'questions' => $questions,
+	    	'correct' => $correct,
+	    	'result' => $result,
+	    	'total' => $total,
+	    ]);
 	}
 }
