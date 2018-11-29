@@ -1,7 +1,7 @@
 <?php
 
 return [
-Pug\PugSymfonyBundle\PugSymfonyBundle::class => ['all' => true],
+    Pug\PugSymfonyBundle\PugSymfonyBundle::class => ['all' => true],
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle::class => ['all' => true],
     Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],

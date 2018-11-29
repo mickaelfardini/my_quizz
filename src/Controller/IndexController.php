@@ -17,8 +17,6 @@ class IndexController extends AbstractController
 		->getRepository(Category::class)
 		->findAll();
 
-		// dump($category);
-		// die;
 		return $this->render('index/index.html.twig', [
 			'controller_name' => 'IndexController',
 			'category' => $category,
