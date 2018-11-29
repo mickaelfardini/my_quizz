@@ -4,7 +4,9 @@
 
 {% block body %}
     <h1>Category</h1>
-
+    {% for item in category.questions %}
+        <p>{{item.question}}</p>
+    {% endfor %}
     <table class="table">
         <tbody>
             <tr>
