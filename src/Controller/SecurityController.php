@@ -29,6 +29,8 @@ class SecurityController extends AbstractController
 	*/
 	public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
 	{
+		if (!$this->checkEmail($request->get('registration')['email'])) {
+			return $this->redirectToRoute('registration'); }
 		$user = new User();
 		$form = $this->createForm(RegistrationType::class, $user);
 		$form->handleRequest($request);
@@ -39,14 +41,13 @@ class SecurityController extends AbstractController
 			$user->setActive(0);
 	
 			$message = (new \Swift_Message('Inscription'))
-				->setFrom('noreply@localhost')
-				->setTo($user->getEmail())
+				->setFrom('noreply@localhost')->setTo($user->getEmail())
 				->setBody($this->renderView('email/register.html.twig', [
-					"token" => $user->getToken(),
-				]));
+					"token" => $user->getToken() ]));
 			$mailer->send($message);
 			$manager->persist($user);
 			$manager->flush();
+			return $this->redirectToRoute('app_login');
 		}
 		
 		return $this->render('security/registration.html.twig', [
@@ -84,5 +85,14 @@ class SecurityController extends AbstractController
 		return $this->render('email/register.html.twig', [
 			"token" => 12,
 		]);
+	}
+
+	private function checkEmail($email)
+	{
+		$user = $this->getDoctrine()
+					->getRepository(User::class)
+					->findByEmail($email);
+		
+		return $user ? false : true;
 	}
 }
