@@ -151,6 +151,7 @@ class AdminController extends AbstractController
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
+			$this->addFlash('success', 'User Updated !');
 			$this->getDoctrine()->getManager()->flush();
 
 			return $this->redirectToRoute('user_edit', ['id' => $user->getId()]);

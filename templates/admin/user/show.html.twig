@@ -17,7 +17,11 @@
             </tr>
             <tr>
                 <th>Roles</th>
-                <td>{{ user.roles }}</td>
+                <td>
+                    {% for role in user.roles %}
+                        {{role}} -
+                    {% endfor %}
+                </td>
             </tr>
             <tr>
                 <th>Password</th>
