@@ -30,9 +30,9 @@ class AdminController extends AbstractController
 		]);
 	}
 
-		/**
-	 * @Route("/category/", name="category_index", methods="GET")
-	 */
+	/**
+	* @Route("/category/", name="category_index", methods="GET")
+	*/
 		public function categoryIndex(CategoryRepository $categoryRepository): Response
 		{
 			return $this->render('admin/category/index.html.twig', ['categories' => $categoryRepository->findAll()]);
@@ -76,7 +76,8 @@ class AdminController extends AbstractController
 	{
 		$form = $this->createForm(CategoryType::class, $category);
 		$form->handleRequest($request);
-
+		dump($request->request);
+		// die;
 		if ($form->isSubmitted() && $form->isValid()) {
 			$this->getDoctrine()->getManager()->flush();
 

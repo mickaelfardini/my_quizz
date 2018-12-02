@@ -1,4 +1,23 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="col-sm-12">
+	<form method="POST">
+		<input type="hidden" name="_csrf_token" value="{{csrf_token('authenticate')}}">
+		<div class="form-group">
+			<label><strong>Category Name :</strong></label>
+			<input type="text" name="category_name" class="form-control" value="{{category.name}}">
+		</div>
+		<br><br>
+		{% for item in category.questions %}
+		<div class="form-group form">
+			<label><strong>Question {{loop.index}}</strong></label>
+			<input type="text" name="question_{{loop.index}}" class="form-control" value="{{item.question}}">
+			<div class="form-group col-10 justify-content-center">
+				{% for answer in item.answers %}
+				<label>Answer {{loop.index}}</label>
+				<input type="text" name="answer_{{loop.index}}" class="form-control" value="{{answer.answer}}">
+				{% endfor %}
+			</div>
+		</div>
+		{% endfor %}
+		<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+	</form>
+</div>
