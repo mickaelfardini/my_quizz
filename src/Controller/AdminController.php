@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Answer;
 use App\Entity\Category;
+use App\Entity\Question;
 use App\Entity\User;
-use App\Form\CategoryType;
 use App\Form\AdminUserType;
+use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -74,19 +76,26 @@ class AdminController extends AbstractController
 	 */
 	public function categoryEdit(Request $request, Category $category): Response
 	{
-		$form = $this->createForm(CategoryType::class, $category);
-		$form->handleRequest($request);
-		dump($request->request);
-		// die;
-		if ($form->isSubmitted() && $form->isValid()) {
-			$this->getDoctrine()->getManager()->flush();
+		$em = $this->getDoctrine()->getManager();
+		if ($request->isMethod('POST')) {
+			$question = $this->getDoctrine()
+				->getRepository(Question::class)
+				->find($request->get('question_id'));
+			$question->setQuestion($request->get('question'));
+			$em->persist($question);
+			$em->flush();
 
-			return $this->redirectToRoute('category_edit', ['id' => $category->getId()]);
+			foreach ($request->get('answers') as $key => $value) {
+				$answer = $this->getDoctrine()
+					->getRepository(Answer::class)
+					->find($key);
+				$answer->setAnswer($value);
+				$em->persist($answer);
+				$em->flush();
+			}
 		}
-
 		return $this->render('admin/category/edit.html.twig', [
 			'category' => $category,
-			'form' => $form->createView(),
 		]);
 	}
 

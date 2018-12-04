@@ -8,20 +8,5 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends AbstractController
 {
-	/**
-	 * @Route("/", name="index", methods={"GET"})
-	 */
-	public function index()
-	{
-		$category = $this->getDoctrine()
-		->getRepository(Category::class)
-		->findAll();
-
-		return $this->render('index/index.html.twig', [
-			'controller_name' => 'IndexController',
-			'category' => $category,
-			'bg' => ['success', 'danger', 'info', 'secondary', 'warning'],
-			'bg_index' => 0,
-		]);
-	}
+	
 }

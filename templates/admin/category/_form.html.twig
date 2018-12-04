@@ -5,19 +5,24 @@
 			<label><strong>Category Name :</strong></label>
 			<input type="text" name="category_name" class="form-control" value="{{category.name}}">
 		</div>
-		<br><br>
-		{% for item in category.questions %}
+		<button type="submit" class="btn btn-success">Update</button>
+	</form>
+	<br><br>
+	{% for item in category.questions %}
+	<form method="POST">
+		<input type="hidden" name="_csrf_token" value="{{csrf_token('authenticate')}}">
+		<input type="hidden" name="question_id" value="{{item.id}}">
 		<div class="form-group form">
 			<label><strong>Question {{loop.index}}</strong></label>
-			<input type="text" name="question_{{loop.index}}" class="form-control" value="{{item.question}}">
+			<input type="text" name="question" class="form-control" value="{{item.question}}">
 			<div class="form-group col-10 justify-content-center">
 				{% for answer in item.answers %}
 				<label>Answer {{loop.index}}</label>
-				<input type="text" name="answer_{{loop.index}}" class="form-control" value="{{answer.answer}}">
+				<input type="text" name="answers[{{answer.id}}]" class="form-control" value="{{answer.answer}}">
 				{% endfor %}
 			</div>
 		</div>
-		{% endfor %}
-		<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+		<button class="btn btn-success" type="submit">Update</button>
 	</form>
+	{% endfor %}
 </div>
