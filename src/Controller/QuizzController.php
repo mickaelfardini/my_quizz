@@ -14,17 +14,10 @@ class QuizzController extends AbstractController
 	/**
 	 * @Route("/quizz/{id}", name="quizz.show", methods={"GET"}, requirements={"id"="\d+"})
 	 */
-	public function show($id)
+	public function show(CategoryRepository $category, $id)
 	{
-		$category = $this->getDoctrine()
-		->getRepository(Category::class)
-		->find($id);
-
 		return $this->render('category/show.html.twig', [
-			'controller_name' => 'IndexController',
-			'category' => $category,
-			'bg' => ['success', 'danger', 'info', 'secondary', 'warning'],
-			'bg_index' => 0,
+			'category' => $category->find($id),
 		]);
 	}
 

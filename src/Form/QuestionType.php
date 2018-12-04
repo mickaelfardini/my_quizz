@@ -13,8 +13,8 @@ class QuestionType extends AbstractType
     {
         $builder
             ->add('question')
-            ->add('category')
-            ->add('answer')
+            // ->add('category')
+            // ->add('answer')
         ;
     }
 

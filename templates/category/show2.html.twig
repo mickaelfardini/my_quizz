@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{category.name}}{% endblock %}
+
+{% block body %}
+<div class="container">
+	<form action="{{path('quizz.result')}}" method="POST" id="postQuizz">
+		<input type="hidden" name="quizz" value="{{category.id}}">
+		<div class="justify-content-center text-center mb-4">
+			<h2>{{category.name}}</h2>
+		</div>
+		<div class="row">
+			<div class="timeline-centered col-12">
+				{% for item in category.questions %}
+				{% if loop.index is divisible by(bg|length) %}
+				{% set bg_index = 0 %}
+				{% endif %}
+				{% if loop.index is divisible by(2) %}
+				<article class="timeline-entry" hidden>
+					<div class="timeline-entry-inner">
+						<time class="timeline-time" style="left: -500px"><span>
+							{% for answer in item.answers|shuffle %}
+							<div class="form-check text-left">
+								<input class="form-check-input" type="radio" name="{{item.id}}" value="{{answer.id}}">
+								<label class="form-check-label" style="width: 300px">
+									{{answer.answer}}
+								</label>
+							</div>
+							<br>
+							{% endfor %}
+						</span></time>
+						<div class="timeline-icon bg-{{bg[bg_index]}}"><i class="entypo-feather"></i></div>
+						<div class="timeline-label">
+							<h2><a href="{{path('quizz.show', {'id': item.id})}}">{{item.question}}</a></h2>
+							<p>
+								
+							</p>
+						</div>
+					</div>
+				</article>
+				{% else %}
+				<article class="timeline-entry left-aligned" hidden>
+					<div class="timeline-entry-inner">
+						<time class="timeline-time" style="left: 800px;"><span >
+							{% for answer in item.answers|shuffle %}
+							<div class="form-check">
+								<input class="form-check-input col-12" type="radio" name="{{item.id}}" value="{{answer.id}}">
+								<label class="form-check-label" style="width: 300px">
+									{{answer.answer}}
+								</label>
+							</div>
+							<br>
+							{% endfor %}
+						</span></time>
+						<div class="timeline-icon bg-{{bg[bg_index]}}"><i class="entypo-suitcase"></i></div>
+						<div class="timeline-label">
+							<h2><a href="#">{{item.question}}</a></h2>
+							<p>
+
+							</p>
+						</div>
+					</div>
+				</article>
+				{% endif %}
+				{% set bg_index = bg_index + 1 %}
+				{% endfor %}
+				<article class="timeline-entry begin" hidden>
+					<div class="timeline-entry-inner">
+						<div id="stopQuizz" class="timeline-icon bg-success" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);"><i class="entypo-flight"></i></div>
+					</div>
+				</article>
+				<article id="bottom-pin" class="timeline-entry begin" hidden>
+					<div class="timeline-entry-inner">
+						<div id="start" class="timeline-icon" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);"><i class="entypo-flight"></i></div>
+					</div>
+				</article>
+			</div>
+		</div>
+
+		<div id="startdiv" class="justify-content-center text-center">
+			<div class="timeline-centered">
+				<article class="timeline-entry begin">
+					<div class="timeline-entry-inner">
+						<div id="startQuizz" class="timeline-icon bg-success" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);"><i class="entypo-flight"></i></div>
+					</div>
+				</article>
+			</div>
+			<span class="text-secondary"><small>Click to Start !</small></span>
+		</div>
+		<div id="stopdiv" class="justify-content-center text-center" hidden>
+			<span class="text-secondary"><small>Click to View Answer !</small></span>
+		</div>
+	</form>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{{ asset('assets/js/quizz.js') }}"></script>
+{% endblock %}
