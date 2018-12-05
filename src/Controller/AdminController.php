@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\AdminUserType;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
+use App\Repository\QuestionRepository;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,10 +36,10 @@ class AdminController extends AbstractController
 	/**
 	* @Route("/category/", name="category_index", methods="GET")
 	*/
-		public function categoryIndex(CategoryRepository $categoryRepository): Response
-		{
-			return $this->render('admin/category/index.html.twig', ['categories' => $categoryRepository->findAll()]);
-		}
+	public function categoryIndex(CategoryRepository $categoryRepository): Response
+	{
+		return $this->render('admin/category/index.html.twig', ['categories' => $categoryRepository->findAll()]);
+	}
 
 	/**
 	 * @Route("/category/new", name="category_new", methods="GET|POST")
@@ -79,16 +80,16 @@ class AdminController extends AbstractController
 		$em = $this->getDoctrine()->getManager();
 		if ($request->isMethod('POST')) {
 			$question = $this->getDoctrine()
-				->getRepository(Question::class)
-				->find($request->get('question_id'));
+			->getRepository(Question::class)
+			->find($request->get('question_id'));
 			$question->setQuestion($request->get('question'));
 			$em->persist($question);
 			$em->flush();
 
 			foreach ($request->get('answers') as $key => $value) {
 				$answer = $this->getDoctrine()
-					->getRepository(Answer::class)
-					->find($key);
+				->getRepository(Answer::class)
+				->find($key);
 				$answer->setAnswer($value);
 				$em->persist($answer);
 				$em->flush();
@@ -185,5 +186,77 @@ class AdminController extends AbstractController
 		}
 
 		return $this->redirectToRoute('user_index');
+	}
+
+	/**
+	 * @Route("/question/", name="question_index", methods="GET")
+	 */
+	public function questionIndex(QuestionRepository $questionRepository): Response
+	{
+		return $this->render('admin/question/index.html.twig', ['questions' => $questionRepository->findAll()]);
+	}
+
+	/**
+	 * @Route("/question/new", name="question_new", methods="GET|POST")
+	 */
+	public function questionNew(Request $request): Response
+	{
+		$question = new Question();
+		$form = $this->createForm(QuestionType::class, $question);
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()) {
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($question);
+			$em->flush();
+
+			return $this->redirectToRoute('question_index');
+		}
+
+		return $this->render('admin/question/new.html.twig', [
+			'question' => $question,
+			'form' => $form->createView(),
+		]);
+	}
+
+	/**
+	 * @Route("/question/{id}", name="question_show", methods="GET")
+	 */
+	public function questionShow(Question $question): Response
+	{
+		return $this->render('admin/question/show.html.twig', ['question' => $question]);
+	}
+
+	/**
+	 * @Route("/question/{id}/edit", name="question_edit", methods="GET|POST")
+	 */
+	public function questionEdit(Request $request, Question $question): Response
+	{
+		$em = $this->getDoctrine()->getManager();
+		if ($request->isMethod('POST')) {
+			$answer = $this->getDoctrine()
+			->getRepository(Answer::class)
+			->find($request->get('answer'));
+			$question->setAnswer($answer);
+			$em->persist($question);
+			$em->flush();
+		}
+		return $this->render('admin/question/edit.html.twig', [
+			'question' => $question,
+		]);
+	}
+
+	/**
+	 * @Route("/question/{id}", name="question_delete", methods="DELETE")
+	 */
+	public function questionDelete(Request $request, Question $question): Response
+	{
+		if ($this->isCsrfTokenValid('delete'.$question->getId(), $request->request->get('_token'))) {
+			$em = $this->getDoctrine()->getManager();
+			$em->remove($question);
+			$em->flush();
+		}
+
+		return $this->redirectToRoute('question_index');
 	}
 }

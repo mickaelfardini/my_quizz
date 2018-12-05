@@ -18,7 +18,7 @@
 		</div>
 		<div class="center">
 			<div class='radio-group'>
-				{% for answer in question.answers %}
+				{% for answer in question.answers|shuffle %}
 				<label class='radio-label'>
 					<input name='answer' type='radio' value="{{answer.id}}">
 					<span class='inner-label'>{{answer.answer}}</span>
